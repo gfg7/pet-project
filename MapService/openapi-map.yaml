@@ -1,0 +1,219 @@
+openapi: '3.0.2'
+info:
+  title: API MVP Карты
+  version: '1.0'
+servers:
+  - url: https://localhost/v1
+
+paths:
+  
+# /hub/* - proxy для ws
+  /hub/location:
+    summary: MVP Карта
+    description: Местоположение пользователя
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+              default: false
+      description: Feature Статус показа местоположения (income event)
+      responses:
+        '200':
+          description: Успешно изменен статус показа
+          $ref: '#/components/schemas/UserLocation'          
+    post:
+      summary: MVP Геймификация Feature Трекер маршрутов
+      description: Текущее местоположение во время прогулки (income event)
+      requestBody:
+        $ref: '#/components/schemas/Location'
+      responses:
+        '201':
+          description: Текущие координаты сохранены
+  /hub/location/radar:
+    summary: MVP Карта
+    description: Modal Радар
+    get:
+      description: consumed event
+      responses:
+        '200':
+          description: Массив пользователей рядом
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLocation'
+  /hub/location/note:
+    summary: MVP Карта
+    description: Feature Заметка на карте
+    get:
+      description: consumed event
+      parameters:
+        - name: radius
+          description: Радиус поиска в метрах
+          in: query
+          required: true
+          schema:
+            type: integer
+            enum:
+              - 100
+              - 5000
+              - 10000
+      responses:
+        '200':
+          description: Массив заметок в ближайшем диапазоне
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MapNote'
+
+    post:
+      description: income event
+      requestBody:
+          $ref: '#/components/schemas/MapNote'
+      responses:
+        '201':
+          description: Заметка сохранена
+          $ref: '#/components/schemas/MapNote'          
+    put:
+      description: income event
+      requestBody:
+          $ref: '#/components/schemas/MapNote'
+      responses:
+        '200':
+          description: Заметка обновлена
+    delete:
+      description: income event
+      parameters:
+        - name: note
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Заметка удалена
+
+# routes management api 
+  /routes:
+    summary: MVP Геймификация
+    description: Feature Трекер маршрутов
+    get:
+      summary: Modal История маршрутов
+      description: Получение массива координат сохраненных маршрутов пользователя 
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Массив координат сохраненных маршрутов пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    post:
+      summary: Feature Сохранение маршрута
+      responses:
+        '200':
+          description: массив координат сохраненного маршрута
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+    delete:
+      summary: Feature Удаление маршрута
+      parameters:
+        - name: routeId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Маршрут удален
+
+components:
+  schemas:
+    Location:
+      title: DTO набор координат
+      properties:
+        routeId:
+          type: integer
+        longtitude:
+          type: number
+        latitude:
+          type: number
+
+        # нужны ли? не всегда приходят с датчиков
+        course:
+          type: number
+          default: 0
+        speed:
+          type: number
+          default: 0
+      required:
+        - longtitude
+        - latitude
+
+    UserLocation:
+      title: DTO местоположение пользователя
+      type: object
+      properties:
+        noteId:
+          type: integer
+        userId:
+          type: integer
+          format: int64
+        time:
+          type: string
+          format: date-time
+        lastLocation:
+          $ref: '#/components/schemas/Location'
+        isHidden:
+          type: boolean
+          default: true
+      required:
+        - userId
+
+    MapNote:
+      title: DTO заметки на карте
+      type: object
+      properties:
+        noteId:
+          type: integer
+        time:
+          type: string
+          format: date-time
+        timeout:
+          type: string
+          format: date-time
+        location:
+          $ref: '#/components/schemas/Location'
+        message:
+          type: string
+      required:
+        - location
+
+    ErrorMessage:
+      title: Сообщение ошибки
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+        arguments:
+          type: array
+          items:
+            type: object
+
