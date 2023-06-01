@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "Map.Service/Map.Service.csproj",
+        "use": "@vercel/dotnet-builder"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "Map.Service/obj/Release/net6.0/Map.Service.dll"
+      }
+    ]
+  }
