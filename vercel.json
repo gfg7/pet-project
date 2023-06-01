@@ -3,7 +3,7 @@
     "builds": [
       {
         "src": "Map.Service/Map.Service.csproj",
-        "use": "@vercel/dotnet-builder"
+        "use": "vercel-dotnet"
       }
     ],
     "routes": [
