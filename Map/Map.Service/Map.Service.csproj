@@ -12,6 +12,7 @@
     <UserSecretsId>f7ba637c-d598-4a62-8f0c-50c4c96ec23e</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+	  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Map.Service.Models/Map.Service.Models.csproj"/>
