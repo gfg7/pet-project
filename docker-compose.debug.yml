@@ -12,6 +12,9 @@ services:
       - 80:80
       - 443:443
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Development 
+      # ngrok proxy
+      - postgres=value
+      - clickhouse=value
     volumes:
       - ~/.vsdbg:/remote_debugger:rw
