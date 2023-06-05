@@ -8,6 +8,18 @@ services:
     build:
       context: .
       dockerfile: Map/Map.Service/Dockerfile
+    environment:
+      - postgres=value
+      - clickhouse=value
     ports:
       - 80:80
       - 443:443
+  clickhouse:
+    image: clickhouse
+    ports:
+      - 8123:8123
+      - 9440:9440
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
