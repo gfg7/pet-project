@@ -4,7 +4,7 @@ namespace Map.Domain
 {
     public static class RegisterServices
     {
-        public static IServiceCollection RedisterDomain(this IServiceCollection services) {
+        public static IServiceCollection RegisterDomain(this IServiceCollection services) {
             services.AddLogging();
             services.AddHttpClient();
             services.AddSignalR();
