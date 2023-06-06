@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Service", "Map.Service\Map.Service.csproj", "{F37197C4-1FFD-458A-99E1-E7C5955181B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Service.Models", "Map.Service.Models\Map.Service.Models.csproj", "{B8D18F25-F379-4B87-ACCC-F8A17E0AED38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Domain", "Map.Domain\Map.Domain.csproj", "{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F37197C4-1FFD-458A-99E1-E7C5955181B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37197C4-1FFD-458A-99E1-E7C5955181B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37197C4-1FFD-458A-99E1-E7C5955181B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37197C4-1FFD-458A-99E1-E7C5955181B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D18F25-F379-4B87-ACCC-F8A17E0AED38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D18F25-F379-4B87-ACCC-F8A17E0AED38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D18F25-F379-4B87-ACCC-F8A17E0AED38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D18F25-F379-4B87-ACCC-F8A17E0AED38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
