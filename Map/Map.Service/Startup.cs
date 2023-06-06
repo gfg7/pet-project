@@ -11,6 +11,11 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Map.Domain;
+using Map.Service.Authentication;
+using Map.Service.Filters;
+using Map.Service.Formatters;
+using Map.Service.OpenApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,10 +25,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Map.Service.Authentication;
-using Map.Service.Filters;
-using Map.Service.OpenApi;
-using Map.Service.Formatters;
 
 namespace Map.Service
 {
@@ -53,10 +54,15 @@ namespace Map.Service
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.RegisterDomain();
+            
+            services.AddSignalR();
+
             // Add framework services.
             services
                 // Don't need the full MVC stack for an API, see https://andrewlock.net/comparing-startup-between-the-asp-net-core-3-templates/
-                .AddControllers(options => {
+                .AddControllers(options =>
+                {
                     options.InputFormatters.Insert(0, new InputFormatterStream());
                 })
                 .AddNewtonsoftJson(opts =>
@@ -72,7 +78,7 @@ namespace Map.Service
                 .AddSwaggerGen(c =>
                 {
                     c.EnableAnnotations(enableAnnotationsForInheritance: true, enableAnnotationsForPolymorphism: true);
-                    
+
                     c.SwaggerDoc("1.0", new OpenApiInfo
                     {
                         Title = "API MVP Карты",
@@ -98,8 +104,8 @@ namespace Map.Service
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
-                services
-                    .AddSwaggerGenNewtonsoftSupport();
+            services
+                .AddSwaggerGenNewtonsoftSupport();
         }
 
         /// <summary>
