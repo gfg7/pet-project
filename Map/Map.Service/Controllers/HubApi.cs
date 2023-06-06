@@ -13,23 +13,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Map.Service.Attributes;
 using Map.Service.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Map.Service.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
     public class HubApiController : ControllerBase
-    { 
+    {
         /// <summary>
         /// Feature Удалить заметку
         /// </summary>
@@ -41,7 +41,7 @@ namespace Map.Service.Controllers
         [Route("/location/note")]
         [ValidateModelState]
         [SwaggerOperation("LocationNoteDelete")]
-        public virtual Task<IActionResult> LocationNoteDelete([FromQuery (Name = "noteId")][Required()]int noteId)
+        public virtual Task<IActionResult> LocationNoteDelete([FromQuery(Name = "noteId")][Required()] int noteId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -49,7 +49,7 @@ namespace Map.Service.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            throw new NotImplementedException();
+            return Task.FromResult<IActionResult>(Ok());
         }
 
         /// <summary>
@@ -63,14 +63,14 @@ namespace Map.Service.Controllers
         [ValidateModelState]
         [SwaggerOperation("LocationNoteGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<MapNote>), description: "Массив заметок в ближайшем диапазоне")]
-        public virtual Task<IActionResult> LocationNoteGet([FromQuery (Name = "radius")][Required()]int radius)
+        public virtual Task<IActionResult> LocationNoteGet([FromQuery(Name = "radius")][Required()] int radius)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<MapNote>));
             string exampleJson = null;
             exampleJson = "[ {\r\n  \"noteId\" : 0,\r\n  \"location\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"message\" : \"message\",\r\n  \"timeout\" : \"2000-01-23T04:56:07.000+00:00\"\r\n}, {\r\n  \"noteId\" : 0,\r\n  \"location\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"message\" : \"message\",\r\n  \"timeout\" : \"2000-01-23T04:56:07.000+00:00\"\r\n} ]";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<MapNote>>(exampleJson)
             : default(List<MapNote>);
@@ -92,7 +92,7 @@ namespace Map.Service.Controllers
         [SwaggerOperation("LocationNotePost")]
         [SwaggerResponse(statusCode: 201, type: typeof(MapNote), description: "Заметка сохранена")]
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
-        public virtual Task<IActionResult> LocationNotePost([FromBody]MapNote mapNote)
+        public virtual Task<IActionResult> LocationNotePost([FromBody] MapNote mapNote)
         {
 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -101,7 +101,7 @@ namespace Map.Service.Controllers
             // return StatusCode(400, default(ErrorMessage));
             string exampleJson = null;
             exampleJson = "{\r\n  \"noteId\" : 0,\r\n  \"location\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"message\" : \"message\",\r\n  \"timeout\" : \"2000-01-23T04:56:07.000+00:00\"\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<MapNote>(exampleJson)
             : default(MapNote);
@@ -125,7 +125,7 @@ namespace Map.Service.Controllers
         [SwaggerOperation("LocationNotePut")]
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка сохранения заметки")]
-        public virtual Task<IActionResult> LocationNotePut([FromBody]MapNote mapNote)
+        public virtual Task<IActionResult> LocationNotePut([FromBody] MapNote mapNote)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -137,7 +137,7 @@ namespace Map.Service.Controllers
             //TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(409, default(ErrorMessage));
 
-            throw new NotImplementedException();
+            return Task.FromResult<IActionResult>(Ok());
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Map.Service.Controllers
         [SwaggerOperation("LocationPost")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка сохранения")]
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
-        public virtual Task<IActionResult> LocationPost([FromBody]Location location)
+        public virtual Task<IActionResult> LocationPost([FromBody] Location location)
         {
 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -165,7 +165,7 @@ namespace Map.Service.Controllers
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(ErrorMessage));
 
-            throw new NotImplementedException();
+            return Task.FromResult<IActionResult>(Created("uri", location));
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Map.Service.Controllers
         [SwaggerOperation("LocationPut")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserLocation), description: "Успешно изменен статус показа")]
         [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка изменения статуса показа")]
-        public virtual Task<IActionResult> LocationPut([FromBody]bool? body)
+        public virtual Task<IActionResult> LocationPut([FromBody] bool? body)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -191,7 +191,7 @@ namespace Map.Service.Controllers
             // return StatusCode(409, default(ErrorMessage));
             string exampleJson = null;
             exampleJson = "{\r\n  \"lastLocation\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"noteId\" : 0,\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"userId\" : 6,\r\n  \"isHidden\" : true\r\n}";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<UserLocation>(exampleJson)
             : default(UserLocation);
@@ -216,7 +216,7 @@ namespace Map.Service.Controllers
             // return StatusCode(200, default(List<UserLocation>));
             string exampleJson = null;
             exampleJson = "[ {\r\n  \"lastLocation\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"noteId\" : 0,\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"userId\" : 6,\r\n  \"isHidden\" : true\r\n}, {\r\n  \"lastLocation\" : {\r\n    \"routeId\" : 1,\r\n    \"latitude\" : 5.637376656633329,\r\n    \"longtitude\" : 5.962133916683182,\r\n    \"course\" : 2.3021358869347655,\r\n    \"speed\" : 7.061401241503109\r\n  },\r\n  \"noteId\" : 0,\r\n  \"time\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"userId\" : 6,\r\n  \"isHidden\" : true\r\n} ]";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<UserLocation>>(exampleJson)
             : default(List<UserLocation>);

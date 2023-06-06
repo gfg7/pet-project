@@ -13,23 +13,23 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Map.Service.Attributes;
 using Map.Service.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Map.Service.Controllers
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
     [ApiController]
     public class ManagementApiController : ControllerBase
-    { 
+    {
         /// <summary>
         /// Feature Удаление маршрута
         /// </summary>
@@ -40,7 +40,7 @@ namespace Map.Service.Controllers
         [Route("/routes")]
         [ValidateModelState]
         [SwaggerOperation("RoutesDelete")]
-        public virtual Task<IActionResult> RoutesDelete([FromQuery (Name = "routeId")][Required()]int routeId)
+        public virtual Task<IActionResult> RoutesDelete([FromQuery(Name = "routeId")][Required()] int routeId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -48,7 +48,7 @@ namespace Map.Service.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            throw new NotImplementedException();
+            return Task.FromResult<IActionResult>(Ok());
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Map.Service.Controllers
         [ValidateModelState]
         [SwaggerOperation("RoutesGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Location>), description: "Массив координат сохраненных маршрутов пользователя")]
-        public virtual Task<IActionResult> RoutesGet([FromQuery (Name = "userId")]int? userId)
+        public virtual Task<IActionResult> RoutesGet([FromQuery(Name = "userId")] int? userId)
         {
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -72,7 +72,7 @@ namespace Map.Service.Controllers
             // return StatusCode(404);
             string exampleJson = null;
             exampleJson = "[ {\r\n  \"routeId\" : 1,\r\n  \"latitude\" : 5.637376656633329,\r\n  \"longtitude\" : 5.962133916683182,\r\n  \"course\" : 2.3021358869347655,\r\n  \"speed\" : 7.061401241503109\r\n}, {\r\n  \"routeId\" : 1,\r\n  \"latitude\" : 5.637376656633329,\r\n  \"longtitude\" : 5.962133916683182,\r\n  \"course\" : 2.3021358869347655,\r\n  \"speed\" : 7.061401241503109\r\n} ]";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<Location>>(exampleJson)
             : default(List<Location>);
@@ -104,7 +104,7 @@ namespace Map.Service.Controllers
             // return StatusCode(409, default(ErrorMessage));
             string exampleJson = null;
             exampleJson = "[ {\r\n  \"routeId\" : 1,\r\n  \"latitude\" : 5.637376656633329,\r\n  \"longtitude\" : 5.962133916683182,\r\n  \"course\" : 2.3021358869347655,\r\n  \"speed\" : 7.061401241503109\r\n}, {\r\n  \"routeId\" : 1,\r\n  \"latitude\" : 5.637376656633329,\r\n  \"longtitude\" : 5.962133916683182,\r\n  \"course\" : 2.3021358869347655,\r\n  \"speed\" : 7.061401241503109\r\n} ]";
-            
+
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<List<Location>>(exampleJson)
             : default(List<Location>);
