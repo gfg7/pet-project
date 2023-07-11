@@ -15,11 +15,15 @@ services:
       - 80:80
       - 443:443
   clickhouse:
-    image: clickhouse
+    image: yandex/clickhouse-server
+    env_file:
+      - clickhouse.env
     ports:
       - 8123:8123
       - 9440:9440
   postgres:
     image: postgres
+    env_file:
+      - postgres.env
     ports:
       - 5432:5432
