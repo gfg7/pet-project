@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Service.Models", "Map.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Domain", "Map.Domain\Map.Domain.csproj", "{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Map.Test", "Map.Test\Map.Test.csproj", "{DCB25ECF-D562-4A0D-A8F6-D096B89984C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D434DE16-D6B9-4FC5-AC78-A690F57AF98A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB25ECF-D562-4A0D-A8F6-D096B89984C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB25ECF-D562-4A0D-A8F6-D096B89984C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB25ECF-D562-4A0D-A8F6-D096B89984C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB25ECF-D562-4A0D-A8F6-D096B89984C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
