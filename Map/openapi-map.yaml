@@ -47,10 +47,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Location'
+              $ref: '#/components/schemas/NewLocation'
       responses:
         '201':
           description: Текущие координаты сохранены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
         '409':
           description: Ошибка сохранения
           content:
@@ -110,7 +114,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MapNote'
+              $ref: '#/components/schemas/NewMapNote'
       responses:
         '201':
           description: Заметка сохранена
@@ -129,14 +133,24 @@ paths:
         - "hub"
       summary: Modal Отредактировать заметку
       description: income event
+      parameters:
+        - name: noteId
+          in: query
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MapNote'
+              $ref: '#/components/schemas/NewMapNote'
       responses:
         '200':
           description: Заметка обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapNote'         
         '400':
           description: Ошибка валидации тела запроса
           content:
@@ -161,7 +175,7 @@ paths:
           in: query
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Заметка удалена
@@ -189,22 +203,34 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Location'
+                  $ref: '#/components/schemas/UserRoute'
         '404':
           description: Пользователя не существует
     post:
       tags:
         - "management"
       summary: Feature Сохранение маршрута
+      requestBody:
+        description: Параметры маршрута
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                routeName:
+                  type: string
+                since:
+                  type: string
+                till:
+                  type: string
       responses:
         '200':
-          description: массив координат сохраненного маршрута
+          description: Массив координат сохраненного маршрута
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Location'
+                $ref: '#/components/schemas/UserRoute'
         '400':
           description: Ошибка валидации тела запроса
           content:
@@ -226,10 +252,16 @@ paths:
           in: query
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           description: Маршрут удален
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRoute'
         '404':
           description: Маршрут не существует
 
@@ -242,33 +274,38 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorMessage'
   schemas:
-    Location:
+    NewLocation:
       title: DTO набор координат
+      type: object
       properties:
-        routeId:
-          type: integer
         longtitude:
           type: number
         latitude:
           type: number
-
         # нужны ли? не всегда приходят с датчиков
         course:
           type: number
-          default: 0
+          nullable: true
         speed:
           type: number
-          default: 0
+          nullable: true
       required:
         - longtitude
         - latitude
+
+    Location:
+      title: DTO набор сохраненных  координат
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/NewLocation'
+      properties:
+        pointId:
+          type: string
 
     UserLocation:
       title: DTO местоположение пользователя
       type: object
       properties:
-        noteId:
-          type: integer
         userId:
           type: integer
           format: int64
@@ -280,27 +317,51 @@ components:
         isHidden:
           type: boolean
           default: true
-      required:
-        - userId
 
-    MapNote:
+    UserRoute:
+      title: DTO маршрут пользователя
+      type: object
+      properties:
+        routeId:
+          type: string
+        userId:
+          type: integer
+          format: int64
+        routeName:
+          type: string
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+
+    NewMapNote:
       title: DTO заметки на карте
       type: object
       properties:
-        noteId:
-          type: integer
         time:
           type: string
           format: date-time
         timeout:
           type: string
           format: date-time
+          nullable: true
         location:
           $ref: '#/components/schemas/Location'
         message:
           type: string
+          nullable: false
       required:
         - location
+        - message
+
+    MapNote:
+      title: DTO сохраненные заметки на карте
+      type: object
+      properties:
+        noteId:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/NewMapNote'
 
     ErrorMessage:
       title: Сообщение ошибки

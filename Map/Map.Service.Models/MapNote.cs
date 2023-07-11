@@ -29,8 +29,8 @@ namespace Map.Service.Models
         /// <summary>
         /// Gets or Sets NoteId
         /// </summary>
-        [DataMember(Name="noteId", EmitDefaultValue=true)]
-        public int NoteId { get; set; }
+        [DataMember(Name="noteId", EmitDefaultValue=false)]
+        public string NoteId { get; set; }
 
         /// <summary>
         /// Gets or Sets Time
@@ -41,8 +41,8 @@ namespace Map.Service.Models
         /// <summary>
         /// Gets or Sets Timeout
         /// </summary>
-        [DataMember(Name="timeout", EmitDefaultValue=false)]
-        public DateTime Timeout { get; set; }
+        [DataMember(Name="timeout", EmitDefaultValue=true)]
+        public DateTime? Timeout { get; set; }
 
         /// <summary>
         /// Gets or Sets Location
@@ -54,6 +54,7 @@ namespace Map.Service.Models
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
+        [Required]
         [DataMember(Name="message", EmitDefaultValue=false)]
         public string Message { get; set; }
 
@@ -108,7 +109,7 @@ namespace Map.Service.Models
             return 
                 (
                     NoteId == other.NoteId ||
-                    
+                    NoteId != null &&
                     NoteId.Equals(other.NoteId)
                 ) && 
                 (
@@ -143,7 +144,7 @@ namespace Map.Service.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
+                    if (NoteId != null)
                     hashCode = hashCode * 59 + NoteId.GetHashCode();
                     if (Time != null)
                     hashCode = hashCode * 59 + Time.GetHashCode();

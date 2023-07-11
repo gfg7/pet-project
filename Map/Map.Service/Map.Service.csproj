@@ -9,21 +9,19 @@
     <Version>1.0.0</Version>
     <AssemblyName>Map.Service</AssemblyName>
     <PackageId>Map.Service</PackageId>
-    <UserSecretsId>f7ba637c-d598-4a62-8f0c-50c4c96ec23e</UserSecretsId>
+    <UserSecretsId>75cb1b1a-f531-4b3a-b71d-7ac4fde37c72</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
-    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../Map.Service.Models/Map.Service.Models.csproj" />
+    <ProjectReference Include="../Map.Service.Models/Map.Service.Models.csproj"/>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0"/>
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Map.Domain\Map.Domain.csproj" />
+    <!--<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0" />-->
   </ItemGroup>
 </Project>

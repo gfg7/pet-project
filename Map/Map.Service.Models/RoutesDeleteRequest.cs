@@ -24,31 +24,25 @@ namespace Map.Service.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserLocation : IEquatable<UserLocation>
+    public partial class RoutesDeleteRequest : IEquatable<RoutesDeleteRequest>
     {
         /// <summary>
-        /// Gets or Sets UserId
+        /// Gets or Sets RouteName
         /// </summary>
-        [DataMember(Name="userId", EmitDefaultValue=true)]
-        public long UserId { get; set; }
+        [DataMember(Name="routeName", EmitDefaultValue=false)]
+        public string RouteName { get; set; }
 
         /// <summary>
-        /// Gets or Sets Time
+        /// Gets or Sets Since
         /// </summary>
-        [DataMember(Name="time", EmitDefaultValue=false)]
-        public DateTime Time { get; set; }
+        [DataMember(Name="since", EmitDefaultValue=false)]
+        public string Since { get; set; }
 
         /// <summary>
-        /// Gets or Sets LastLocation
+        /// Gets or Sets Till
         /// </summary>
-        [DataMember(Name="lastLocation", EmitDefaultValue=false)]
-        public Location LastLocation { get; set; }
-
-        /// <summary>
-        /// Gets or Sets IsHidden
-        /// </summary>
-        [DataMember(Name="isHidden", EmitDefaultValue=true)]
-        public bool IsHidden { get; set; } = true;
+        [DataMember(Name="till", EmitDefaultValue=false)]
+        public string Till { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,11 +51,10 @@ namespace Map.Service.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserLocation {\n");
-            sb.Append("  UserId: ").Append(UserId).Append("\n");
-            sb.Append("  Time: ").Append(Time).Append("\n");
-            sb.Append("  LastLocation: ").Append(LastLocation).Append("\n");
-            sb.Append("  IsHidden: ").Append(IsHidden).Append("\n");
+            sb.Append("class RoutesDeleteRequest {\n");
+            sb.Append("  RouteName: ").Append(RouteName).Append("\n");
+            sb.Append("  Since: ").Append(Since).Append("\n");
+            sb.Append("  Till: ").Append(Till).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,39 +77,34 @@ namespace Map.Service.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((UserLocation)obj);
+            return obj.GetType() == GetType() && Equals((RoutesDeleteRequest)obj);
         }
 
         /// <summary>
-        /// Returns true if UserLocation instances are equal
+        /// Returns true if RoutesDeleteRequest instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserLocation to be compared</param>
+        /// <param name="other">Instance of RoutesDeleteRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserLocation other)
+        public bool Equals(RoutesDeleteRequest other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    UserId == other.UserId ||
-                    
-                    UserId.Equals(other.UserId)
+                    RouteName == other.RouteName ||
+                    RouteName != null &&
+                    RouteName.Equals(other.RouteName)
                 ) && 
                 (
-                    Time == other.Time ||
-                    Time != null &&
-                    Time.Equals(other.Time)
+                    Since == other.Since ||
+                    Since != null &&
+                    Since.Equals(other.Since)
                 ) && 
                 (
-                    LastLocation == other.LastLocation ||
-                    LastLocation != null &&
-                    LastLocation.Equals(other.LastLocation)
-                ) && 
-                (
-                    IsHidden == other.IsHidden ||
-                    
-                    IsHidden.Equals(other.IsHidden)
+                    Till == other.Till ||
+                    Till != null &&
+                    Till.Equals(other.Till)
                 );
         }
 
@@ -130,14 +118,12 @@ namespace Map.Service.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
-                    hashCode = hashCode * 59 + UserId.GetHashCode();
-                    if (Time != null)
-                    hashCode = hashCode * 59 + Time.GetHashCode();
-                    if (LastLocation != null)
-                    hashCode = hashCode * 59 + LastLocation.GetHashCode();
-                    
-                    hashCode = hashCode * 59 + IsHidden.GetHashCode();
+                    if (RouteName != null)
+                    hashCode = hashCode * 59 + RouteName.GetHashCode();
+                    if (Since != null)
+                    hashCode = hashCode * 59 + Since.GetHashCode();
+                    if (Till != null)
+                    hashCode = hashCode * 59 + Till.GetHashCode();
                 return hashCode;
             }
         }
@@ -145,12 +131,12 @@ namespace Map.Service.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(UserLocation left, UserLocation right)
+        public static bool operator ==(RoutesDeleteRequest left, RoutesDeleteRequest right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(UserLocation left, UserLocation right)
+        public static bool operator !=(RoutesDeleteRequest left, RoutesDeleteRequest right)
         {
             return !Equals(left, right);
         }

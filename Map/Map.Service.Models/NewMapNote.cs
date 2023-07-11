@@ -24,14 +24,8 @@ namespace Map.Service.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserLocation : IEquatable<UserLocation>
+    public partial class NewMapNote : IEquatable<NewMapNote>
     {
-        /// <summary>
-        /// Gets or Sets UserId
-        /// </summary>
-        [DataMember(Name="userId", EmitDefaultValue=true)]
-        public long UserId { get; set; }
-
         /// <summary>
         /// Gets or Sets Time
         /// </summary>
@@ -39,16 +33,24 @@ namespace Map.Service.Models
         public DateTime Time { get; set; }
 
         /// <summary>
-        /// Gets or Sets LastLocation
+        /// Gets or Sets Timeout
         /// </summary>
-        [DataMember(Name="lastLocation", EmitDefaultValue=false)]
-        public Location LastLocation { get; set; }
+        [DataMember(Name="timeout", EmitDefaultValue=true)]
+        public DateTime? Timeout { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsHidden
+        /// Gets or Sets Location
         /// </summary>
-        [DataMember(Name="isHidden", EmitDefaultValue=true)]
-        public bool IsHidden { get; set; } = true;
+        [Required]
+        [DataMember(Name="location", EmitDefaultValue=false)]
+        public Location Location { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Message
+        /// </summary>
+        [Required]
+        [DataMember(Name="message", EmitDefaultValue=false)]
+        public string Message { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,11 +59,11 @@ namespace Map.Service.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserLocation {\n");
-            sb.Append("  UserId: ").Append(UserId).Append("\n");
+            sb.Append("class NewMapNote {\n");
             sb.Append("  Time: ").Append(Time).Append("\n");
-            sb.Append("  LastLocation: ").Append(LastLocation).Append("\n");
-            sb.Append("  IsHidden: ").Append(IsHidden).Append("\n");
+            sb.Append("  Timeout: ").Append(Timeout).Append("\n");
+            sb.Append("  Location: ").Append(Location).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,39 +86,39 @@ namespace Map.Service.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((UserLocation)obj);
+            return obj.GetType() == GetType() && Equals((NewMapNote)obj);
         }
 
         /// <summary>
-        /// Returns true if UserLocation instances are equal
+        /// Returns true if NewMapNote instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserLocation to be compared</param>
+        /// <param name="other">Instance of NewMapNote to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserLocation other)
+        public bool Equals(NewMapNote other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    UserId == other.UserId ||
-                    
-                    UserId.Equals(other.UserId)
-                ) && 
-                (
                     Time == other.Time ||
                     Time != null &&
                     Time.Equals(other.Time)
                 ) && 
                 (
-                    LastLocation == other.LastLocation ||
-                    LastLocation != null &&
-                    LastLocation.Equals(other.LastLocation)
+                    Timeout == other.Timeout ||
+                    Timeout != null &&
+                    Timeout.Equals(other.Timeout)
                 ) && 
                 (
-                    IsHidden == other.IsHidden ||
-                    
-                    IsHidden.Equals(other.IsHidden)
+                    Location == other.Location ||
+                    Location != null &&
+                    Location.Equals(other.Location)
+                ) && 
+                (
+                    Message == other.Message ||
+                    Message != null &&
+                    Message.Equals(other.Message)
                 );
         }
 
@@ -130,14 +132,14 @@ namespace Map.Service.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
-                    hashCode = hashCode * 59 + UserId.GetHashCode();
                     if (Time != null)
                     hashCode = hashCode * 59 + Time.GetHashCode();
-                    if (LastLocation != null)
-                    hashCode = hashCode * 59 + LastLocation.GetHashCode();
-                    
-                    hashCode = hashCode * 59 + IsHidden.GetHashCode();
+                    if (Timeout != null)
+                    hashCode = hashCode * 59 + Timeout.GetHashCode();
+                    if (Location != null)
+                    hashCode = hashCode * 59 + Location.GetHashCode();
+                    if (Message != null)
+                    hashCode = hashCode * 59 + Message.GetHashCode();
                 return hashCode;
             }
         }
@@ -145,12 +147,12 @@ namespace Map.Service.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(UserLocation left, UserLocation right)
+        public static bool operator ==(NewMapNote left, NewMapNote right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(UserLocation left, UserLocation right)
+        public static bool operator !=(NewMapNote left, NewMapNote right)
         {
             return !Equals(left, right);
         }

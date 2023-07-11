@@ -24,31 +24,33 @@ namespace Map.Service.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class UserLocation : IEquatable<UserLocation>
+    public partial class NewLocation : IEquatable<NewLocation>
     {
         /// <summary>
-        /// Gets or Sets UserId
+        /// Gets or Sets Longtitude
         /// </summary>
-        [DataMember(Name="userId", EmitDefaultValue=true)]
-        public long UserId { get; set; }
+        [Required]
+        [DataMember(Name="longtitude", EmitDefaultValue=true)]
+        public decimal Longtitude { get; set; }
 
         /// <summary>
-        /// Gets or Sets Time
+        /// Gets or Sets Latitude
         /// </summary>
-        [DataMember(Name="time", EmitDefaultValue=false)]
-        public DateTime Time { get; set; }
+        [Required]
+        [DataMember(Name="latitude", EmitDefaultValue=true)]
+        public decimal Latitude { get; set; }
 
         /// <summary>
-        /// Gets or Sets LastLocation
+        /// Gets or Sets Course
         /// </summary>
-        [DataMember(Name="lastLocation", EmitDefaultValue=false)]
-        public Location LastLocation { get; set; }
+        [DataMember(Name="course", EmitDefaultValue=true)]
+        public decimal? Course { get; set; }
 
         /// <summary>
-        /// Gets or Sets IsHidden
+        /// Gets or Sets Speed
         /// </summary>
-        [DataMember(Name="isHidden", EmitDefaultValue=true)]
-        public bool IsHidden { get; set; } = true;
+        [DataMember(Name="speed", EmitDefaultValue=true)]
+        public decimal? Speed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -57,11 +59,11 @@ namespace Map.Service.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class UserLocation {\n");
-            sb.Append("  UserId: ").Append(UserId).Append("\n");
-            sb.Append("  Time: ").Append(Time).Append("\n");
-            sb.Append("  LastLocation: ").Append(LastLocation).Append("\n");
-            sb.Append("  IsHidden: ").Append(IsHidden).Append("\n");
+            sb.Append("class NewLocation {\n");
+            sb.Append("  Longtitude: ").Append(Longtitude).Append("\n");
+            sb.Append("  Latitude: ").Append(Latitude).Append("\n");
+            sb.Append("  Course: ").Append(Course).Append("\n");
+            sb.Append("  Speed: ").Append(Speed).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,39 +86,39 @@ namespace Map.Service.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((UserLocation)obj);
+            return obj.GetType() == GetType() && Equals((NewLocation)obj);
         }
 
         /// <summary>
-        /// Returns true if UserLocation instances are equal
+        /// Returns true if NewLocation instances are equal
         /// </summary>
-        /// <param name="other">Instance of UserLocation to be compared</param>
+        /// <param name="other">Instance of NewLocation to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(UserLocation other)
+        public bool Equals(NewLocation other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
                 (
-                    UserId == other.UserId ||
+                    Longtitude == other.Longtitude ||
                     
-                    UserId.Equals(other.UserId)
+                    Longtitude.Equals(other.Longtitude)
                 ) && 
                 (
-                    Time == other.Time ||
-                    Time != null &&
-                    Time.Equals(other.Time)
-                ) && 
-                (
-                    LastLocation == other.LastLocation ||
-                    LastLocation != null &&
-                    LastLocation.Equals(other.LastLocation)
-                ) && 
-                (
-                    IsHidden == other.IsHidden ||
+                    Latitude == other.Latitude ||
                     
-                    IsHidden.Equals(other.IsHidden)
+                    Latitude.Equals(other.Latitude)
+                ) && 
+                (
+                    Course == other.Course ||
+                    Course != null &&
+                    Course.Equals(other.Course)
+                ) && 
+                (
+                    Speed == other.Speed ||
+                    Speed != null &&
+                    Speed.Equals(other.Speed)
                 );
         }
 
@@ -131,13 +133,13 @@ namespace Map.Service.Models
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
                     
-                    hashCode = hashCode * 59 + UserId.GetHashCode();
-                    if (Time != null)
-                    hashCode = hashCode * 59 + Time.GetHashCode();
-                    if (LastLocation != null)
-                    hashCode = hashCode * 59 + LastLocation.GetHashCode();
+                    hashCode = hashCode * 59 + Longtitude.GetHashCode();
                     
-                    hashCode = hashCode * 59 + IsHidden.GetHashCode();
+                    hashCode = hashCode * 59 + Latitude.GetHashCode();
+                    if (Course != null)
+                    hashCode = hashCode * 59 + Course.GetHashCode();
+                    if (Speed != null)
+                    hashCode = hashCode * 59 + Speed.GetHashCode();
                 return hashCode;
             }
         }
@@ -145,12 +147,12 @@ namespace Map.Service.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(UserLocation left, UserLocation right)
+        public static bool operator ==(NewLocation left, NewLocation right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(UserLocation left, UserLocation right)
+        public static bool operator !=(NewLocation left, NewLocation right)
         {
             return !Equals(left, right);
         }

@@ -22,13 +22,20 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Location"
+                "$ref" : "#/components/schemas/NewLocation"
               }
             }
           }
         },
         "responses" : {
           "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Location"
+                }
+              }
+            },
             "description" : "Текущие координаты сохранены"
           },
           "409" : {
@@ -124,7 +131,7 @@
           "name" : "noteId",
           "required" : true,
           "schema" : {
-            "type" : "integer"
+            "type" : "string"
           },
           "style" : "form"
         } ],
@@ -176,7 +183,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/MapNote"
+                "$ref" : "#/components/schemas/NewMapNote"
               }
             }
           }
@@ -208,17 +215,34 @@
       },
       "put" : {
         "description" : "income event",
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "noteId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/MapNote"
+                "$ref" : "#/components/schemas/NewMapNote"
               }
             }
           }
         },
         "responses" : {
           "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MapNote"
+                }
+              }
+            },
             "description" : "Заметка обновлена"
           },
           "400" : {
@@ -257,12 +281,22 @@
           "name" : "routeId",
           "required" : true,
           "schema" : {
-            "type" : "integer"
+            "type" : "string"
           },
           "style" : "form"
         } ],
         "responses" : {
           "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserRoute"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
             "description" : "Маршрут удален"
           },
           "404" : {
@@ -290,7 +324,7 @@
               "application/json" : {
                 "schema" : {
                   "items" : {
-                    "$ref" : "#/components/schemas/Location"
+                    "$ref" : "#/components/schemas/UserRoute"
                   },
                   "type" : "array"
                 }
@@ -306,19 +340,27 @@
         "tags" : [ "management" ]
       },
       "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/_routes_delete_request"
+              }
+            }
+          },
+          "description" : "Параметры маршрута",
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "items" : {
-                    "$ref" : "#/components/schemas/Location"
-                  },
-                  "type" : "array"
+                  "$ref" : "#/components/schemas/UserRoute"
                 }
               }
             },
-            "description" : "массив координат сохраненного маршрута"
+            "description" : "Массив координат сохраненного маршрута"
           },
           "400" : {
             "content" : {
@@ -360,18 +402,14 @@
       }
     },
     "schemas" : {
-      "Location" : {
+      "NewLocation" : {
         "example" : {
-          "routeId" : 1,
-          "latitude" : 5.637376656633329,
-          "longtitude" : 5.962133916683182,
-          "course" : 2.3021358869347655,
-          "speed" : 7.061401241503109
+          "latitude" : 6.027456183070403,
+          "longtitude" : 0.8008281904610115,
+          "course" : 1.4658129805029452,
+          "speed" : 5.962133916683182
         },
         "properties" : {
-          "routeId" : {
-            "type" : "integer"
-          },
           "longtitude" : {
             "type" : "number"
           },
@@ -379,35 +417,43 @@
             "type" : "number"
           },
           "course" : {
-            "default" : 0,
+            "nullable" : true,
             "type" : "number"
           },
           "speed" : {
-            "default" : 0,
+            "nullable" : true,
             "type" : "number"
           }
         },
         "required" : [ "latitude", "longtitude" ],
-        "title" : "DTO набор координат"
+        "title" : "DTO набор координат",
+        "type" : "object"
+      },
+      "Location" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/NewLocation"
+        } ],
+        "example" : {
+          "pointId" : "pointId"
+        },
+        "properties" : {
+          "pointId" : {
+            "type" : "string"
+          }
+        },
+        "title" : "DTO набор сохраненных  координат",
+        "type" : "object"
       },
       "UserLocation" : {
         "example" : {
           "lastLocation" : {
-            "routeId" : 1,
-            "latitude" : 5.637376656633329,
-            "longtitude" : 5.962133916683182,
-            "course" : 2.3021358869347655,
-            "speed" : 7.061401241503109
+            "pointId" : "pointId"
           },
-          "noteId" : 0,
           "time" : "2000-01-23T04:56:07.000+00:00",
-          "userId" : 6,
+          "userId" : 0,
           "isHidden" : true
         },
         "properties" : {
-          "noteId" : {
-            "type" : "integer"
-          },
           "userId" : {
             "format" : "int64",
             "type" : "integer"
@@ -424,45 +470,85 @@
             "type" : "boolean"
           }
         },
-        "required" : [ "userId" ],
         "title" : "DTO местоположение пользователя",
         "type" : "object"
       },
-      "MapNote" : {
+      "UserRoute" : {
         "example" : {
-          "noteId" : 0,
+          "routeId" : "routeId",
+          "userId" : 0,
+          "routeName" : "routeName",
+          "points" : [ {
+            "pointId" : "pointId"
+          }, {
+            "pointId" : "pointId"
+          } ]
+        },
+        "properties" : {
+          "routeId" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "routeName" : {
+            "type" : "string"
+          },
+          "points" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Location"
+            },
+            "type" : "array"
+          }
+        },
+        "title" : "DTO маршрут пользователя",
+        "type" : "object"
+      },
+      "NewMapNote" : {
+        "example" : {
           "location" : {
-            "routeId" : 1,
-            "latitude" : 5.637376656633329,
-            "longtitude" : 5.962133916683182,
-            "course" : 2.3021358869347655,
-            "speed" : 7.061401241503109
+            "pointId" : "pointId"
           },
           "time" : "2000-01-23T04:56:07.000+00:00",
           "message" : "message",
           "timeout" : "2000-01-23T04:56:07.000+00:00"
         },
         "properties" : {
-          "noteId" : {
-            "type" : "integer"
-          },
           "time" : {
             "format" : "date-time",
             "type" : "string"
           },
           "timeout" : {
             "format" : "date-time",
+            "nullable" : true,
             "type" : "string"
           },
           "location" : {
             "$ref" : "#/components/schemas/Location"
           },
           "message" : {
+            "nullable" : false,
             "type" : "string"
           }
         },
-        "required" : [ "location" ],
+        "required" : [ "location", "message" ],
         "title" : "DTO заметки на карте",
+        "type" : "object"
+      },
+      "MapNote" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/NewMapNote"
+        } ],
+        "example" : {
+          "noteId" : "noteId"
+        },
+        "properties" : {
+          "noteId" : {
+            "type" : "string"
+          }
+        },
+        "title" : "DTO сохраненные заметки на карте",
         "type" : "object"
       },
       "ErrorMessage" : {
@@ -481,6 +567,20 @@
           }
         },
         "title" : "Сообщение ошибки"
+      },
+      "_routes_delete_request" : {
+        "properties" : {
+          "routeName" : {
+            "type" : "string"
+          },
+          "since" : {
+            "type" : "string"
+          },
+          "till" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
       }
     }
   }

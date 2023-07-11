@@ -27,10 +27,10 @@ namespace Map.Service.Models
     public partial class Location : IEquatable<Location>
     {
         /// <summary>
-        /// Gets or Sets RouteId
+        /// Gets or Sets PointId
         /// </summary>
-        [DataMember(Name="routeId", EmitDefaultValue=true)]
-        public int RouteId { get; set; }
+        [DataMember(Name="pointId", EmitDefaultValue=false)]
+        public string PointId { get; set; }
 
         /// <summary>
         /// Gets or Sets Longtitude
@@ -50,13 +50,13 @@ namespace Map.Service.Models
         /// Gets or Sets Course
         /// </summary>
         [DataMember(Name="course", EmitDefaultValue=true)]
-        public decimal Course { get; set; } = 0M;
+        public decimal? Course { get; set; }
 
         /// <summary>
         /// Gets or Sets Speed
         /// </summary>
         [DataMember(Name="speed", EmitDefaultValue=true)]
-        public decimal Speed { get; set; } = 0M;
+        public decimal? Speed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -66,7 +66,7 @@ namespace Map.Service.Models
         {
             var sb = new StringBuilder();
             sb.Append("class Location {\n");
-            sb.Append("  RouteId: ").Append(RouteId).Append("\n");
+            sb.Append("  PointId: ").Append(PointId).Append("\n");
             sb.Append("  Longtitude: ").Append(Longtitude).Append("\n");
             sb.Append("  Latitude: ").Append(Latitude).Append("\n");
             sb.Append("  Course: ").Append(Course).Append("\n");
@@ -108,9 +108,9 @@ namespace Map.Service.Models
 
             return 
                 (
-                    RouteId == other.RouteId ||
-                    
-                    RouteId.Equals(other.RouteId)
+                    PointId == other.PointId ||
+                    PointId != null &&
+                    PointId.Equals(other.PointId)
                 ) && 
                 (
                     Longtitude == other.Longtitude ||
@@ -124,12 +124,12 @@ namespace Map.Service.Models
                 ) && 
                 (
                     Course == other.Course ||
-                    
+                    Course != null &&
                     Course.Equals(other.Course)
                 ) && 
                 (
                     Speed == other.Speed ||
-                    
+                    Speed != null &&
                     Speed.Equals(other.Speed)
                 );
         }
@@ -144,15 +144,15 @@ namespace Map.Service.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    
-                    hashCode = hashCode * 59 + RouteId.GetHashCode();
+                    if (PointId != null)
+                    hashCode = hashCode * 59 + PointId.GetHashCode();
                     
                     hashCode = hashCode * 59 + Longtitude.GetHashCode();
                     
                     hashCode = hashCode * 59 + Latitude.GetHashCode();
-                    
+                    if (Course != null)
                     hashCode = hashCode * 59 + Course.GetHashCode();
-                    
+                    if (Speed != null)
                     hashCode = hashCode * 59 + Speed.GetHashCode();
                 return hashCode;
             }

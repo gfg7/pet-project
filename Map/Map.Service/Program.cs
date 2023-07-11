@@ -27,7 +27,7 @@ namespace Map.Service
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                    webBuilder.UseStartup<Startup>()
-                             .UseUrls("http://0.0.0.0:8080/");
+;
                 });
     }
 }
