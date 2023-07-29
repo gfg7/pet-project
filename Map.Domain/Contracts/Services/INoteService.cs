@@ -1,4 +1,5 @@
-using Map.Service.Models;
+
+using Map.Contract.Models;
 
 namespace Map.Domain.Contracts.Services
 {
@@ -6,7 +7,7 @@ namespace Map.Domain.Contracts.Services
     {
         Task RemoveNote(Guid noteId);
         Task<IEnumerable<MapNote>> GetNotes(int radius);
-        Task<MapNote> SaveNote(NewMapNote note);
-        Task<MapNote> EditNote(NewMapNote note);
+        Task<MapNote> SaveNote(MapNoteRequest note);
+        Task<MapNote> EditNote(MapNoteRequest note);
     }
 }

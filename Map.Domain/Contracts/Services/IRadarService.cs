@@ -1,4 +1,5 @@
-using Map.Service.Models;
+
+using Map.Contract.Models;
 
 namespace Map.Domain.Contracts.Services
 {

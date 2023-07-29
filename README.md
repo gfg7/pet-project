@@ -41,10 +41,3 @@ Windows:
 ```
 build.bat
 ```
-## Run in Docker
-
-```
-cd /Map.Contract
-docker build -t map.contract .
-docker run -p 5000:8080 map.contract
-```

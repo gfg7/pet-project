@@ -1,8 +1,7 @@
 using ClickHouse.Client.ADO;
+using Map.Contract.Models;
 using Map.Domain.Contracts.Database;
-using Map.Domain.Contracts.Repository;
 using Map.Domain.Contracts.Services;
-using Map.Service.Models;
 
 namespace Map.Domain.Repository.TempStorage
 {

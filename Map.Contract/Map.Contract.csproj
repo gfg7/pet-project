@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>A library generated from a OpenAPI doc</Description>
     <Copyright>No Copyright</Copyright>
@@ -7,18 +7,16 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <Version>1.0.0</Version>
+    <OutputType>Library</OutputType>
     <AssemblyName>Map.Contract</AssemblyName>
     <PackageId>Map.Contract</PackageId>
-    <UserSecretsId>4dc8b63b-e939-4337-879b-898b658bc475</UserSecretsId>
+    <UserSecretsId>860b450e-4db5-4720-939f-ce7c6c8c6c68</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Map.Contract.Models/Map.Contract.Models.csproj"/>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="JsonSubTypes" Version="1.8.0" />
   </ItemGroup>
   <ItemGroup>

@@ -16,9 +16,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Map.Contract.Attributes;
 using Map.Contract.Models;
 
@@ -39,8 +36,7 @@ namespace Map.Contract.Controllers
         [HttpDelete]
         [Route("/routes")]
         [ValidateModelState]
-        [SwaggerOperation("RoutesDelete")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<UserRoute>), description: "Маршрут удален")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<UserRoute>))]
         public abstract Task<IActionResult> RoutesDelete([FromQuery (Name = "routeId")][Required()]string routeId);
 
         /// <summary>
@@ -53,8 +49,7 @@ namespace Map.Contract.Controllers
         [HttpGet]
         [Route("/routes")]
         [ValidateModelState]
-        [SwaggerOperation("RoutesGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<UserRoute>), description: "Массив координат сохраненных маршрутов пользователя")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<UserRoute>))]
         public abstract Task<IActionResult> RoutesGet([FromQuery (Name = "userId")]int? userId);
 
         /// <summary>
@@ -68,10 +63,9 @@ namespace Map.Contract.Controllers
         [Route("/routes")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("RoutesPost")]
-        [SwaggerResponse(statusCode: 200, type: typeof(UserRoute), description: "Массив координат сохраненного маршрута")]
-        [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
-        [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка сохранения маршрута")]
+        [ProducesResponseType(statusCode: 200, type: typeof(UserRoute))]
+        [ProducesResponseType(statusCode: 400, type: typeof(ErrorMessage))]
+        [ProducesResponseType(statusCode: 409, type: typeof(ErrorMessage))]
         public abstract Task<IActionResult> RoutesPost([FromBody]SaveRouteRequest saveRouteRequest);
     }
 }

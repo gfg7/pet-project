@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Map.Service.Models\Map.Service.Models.csproj" />
+    <ProjectReference Include="..\Map.Contract.Models\Map.Contract.Models.csproj" />
   </ItemGroup>
 
 </Project>

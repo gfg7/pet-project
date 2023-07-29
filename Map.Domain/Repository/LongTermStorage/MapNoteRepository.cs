@@ -1,6 +1,6 @@
 using System.Data;
+using Map.Contract.Models;
 using Map.Domain.Database.ExcutionService;
-using Map.Service.Models;
 
 namespace Map.Domain.Repository.LongTermStorage
 {

@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Newtonsoft.Json;
 using Map.Contract.Converters;
 
 namespace Map.Contract.Models
@@ -24,7 +23,7 @@ namespace Map.Contract.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class ErrorMessage : IEquatable<ErrorMessage>
+    public class ErrorMessage : IEquatable<ErrorMessage>
     {
         /// <summary>
         /// Gets or Sets UserErrorMessage

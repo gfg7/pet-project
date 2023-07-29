@@ -16,9 +16,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Newtonsoft.Json;
 using Map.Contract.Attributes;
 using Map.Contract.Models;
 
@@ -40,7 +37,6 @@ namespace Map.Contract.Controllers
         [HttpDelete]
         [Route("/location/note")]
         [ValidateModelState]
-        [SwaggerOperation("LocationNoteDelete")]
         public abstract Task<IActionResult> LocationNoteDelete([FromQuery (Name = "noteId")][Required()]string noteId);
 
         /// <summary>
@@ -52,8 +48,7 @@ namespace Map.Contract.Controllers
         [HttpGet]
         [Route("/location/note")]
         [ValidateModelState]
-        [SwaggerOperation("LocationNoteGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<MapNote>), description: "Массив заметок в ближайшем диапазоне")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<MapNote>))]
         public abstract Task<IActionResult> LocationNoteGet([FromQuery (Name = "radius")][Required()]int radius);
 
         /// <summary>
@@ -67,9 +62,8 @@ namespace Map.Contract.Controllers
         [Route("/location/note")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("LocationNotePost")]
-        [SwaggerResponse(statusCode: 201, type: typeof(MapNote), description: "Заметка сохранена")]
-        [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
+        [ProducesResponseType(statusCode: 201, type: typeof(MapNote))]
+        [ProducesResponseType(statusCode: 400, type: typeof(ErrorMessage))]
         public abstract Task<IActionResult> LocationNotePost([FromBody]MapNoteRequest mapNoteRequest);
 
         /// <summary>
@@ -86,10 +80,9 @@ namespace Map.Contract.Controllers
         [Route("/location/note")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("LocationNotePut")]
-        [SwaggerResponse(statusCode: 200, type: typeof(MapNote), description: "Заметка обновлена")]
-        [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
-        [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка сохранения заметки")]
+        [ProducesResponseType(statusCode: 200, type: typeof(MapNote))]
+        [ProducesResponseType(statusCode: 400, type: typeof(ErrorMessage))]
+        [ProducesResponseType(statusCode: 409, type: typeof(ErrorMessage))]
         public abstract Task<IActionResult> LocationNotePut([FromQuery (Name = "noteId")][Required()]string noteId, [FromBody]MapNoteRequest mapNoteRequest);
 
         /// <summary>
@@ -104,10 +97,9 @@ namespace Map.Contract.Controllers
         [Route("/location")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("LocationPost")]
-        [SwaggerResponse(statusCode: 201, type: typeof(Location), description: "Текущие координаты сохранены")]
-        [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка сохранения")]
-        [SwaggerResponse(statusCode: 400, type: typeof(ErrorMessage), description: "Ошибка валидации тела запроса")]
+        [ProducesResponseType(statusCode: 201, type: typeof(Location))]
+        [ProducesResponseType(statusCode: 409, type: typeof(ErrorMessage))]
+        [ProducesResponseType(statusCode: 400, type: typeof(ErrorMessage))]
         public abstract Task<IActionResult> LocationPost([FromBody]LocationRequest locationRequest);
 
         /// <summary>
@@ -121,9 +113,8 @@ namespace Map.Contract.Controllers
         [Route("/location")]
         [Consumes("application/json")]
         [ValidateModelState]
-        [SwaggerOperation("LocationPut")]
-        [SwaggerResponse(statusCode: 200, type: typeof(UserLocation), description: "Успешно изменен статус показа")]
-        [SwaggerResponse(statusCode: 409, type: typeof(ErrorMessage), description: "Ошибка изменения статуса показа")]
+        [ProducesResponseType(statusCode: 200, type: typeof(UserLocation))]
+        [ProducesResponseType(statusCode: 409, type: typeof(ErrorMessage))]
         public abstract Task<IActionResult> LocationPut([FromBody]bool? body);
 
         /// <summary>
@@ -134,8 +125,7 @@ namespace Map.Contract.Controllers
         [HttpGet]
         [Route("/location/radar")]
         [ValidateModelState]
-        [SwaggerOperation("LocationRadarGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<UserLocation>), description: "Массив пользователей рядом")]
+        [ProducesResponseType(statusCode: 200, type: typeof(List<UserLocation>))]
         public abstract Task<IActionResult> LocationRadarGet();
     }
 }
