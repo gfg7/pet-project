@@ -1,0 +1,593 @@
+{
+  "openapi" : "3.0.2",
+  "info" : {
+    "title" : "API MVP Карты",
+    "version" : "1.0"
+  },
+  "servers" : [ {
+    "url" : "v1"
+  } ],
+  "tags" : [ {
+    "description" : "Proxy для ws \"hub\" MVP Карта",
+    "name" : "hub"
+  }, {
+    "description" : "Feature Трекер маршрутов",
+    "name" : "route"
+  } ],
+  "paths" : {
+    "/location" : {
+      "post" : {
+        "description" : "Текущее местоположение во время прогулки (income event)",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LocationRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Location"
+                }
+              }
+            },
+            "description" : "Текущие координаты сохранены"
+          },
+          "409" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка сохранения"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка валидации тела запроса"
+          }
+        },
+        "summary" : "MVP Геймификация Feature Трекер маршрутов",
+        "tags" : [ "hub" ]
+      },
+      "put" : {
+        "description" : "income event",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "default" : false,
+                "type" : "boolean"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserLocation"
+                }
+              }
+            },
+            "description" : "Успешно изменен статус показа"
+          },
+          "409" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка изменения статуса показа"
+          }
+        },
+        "summary" : "Feature Статус показа местоположения",
+        "tags" : [ "hub" ]
+      }
+    },
+    "/location/radar" : {
+      "get" : {
+        "description" : "consumed event",
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserLocation"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Массив пользователей рядом"
+          }
+        },
+        "summary" : "Modal Радар",
+        "tags" : [ "hub" ]
+      }
+    },
+    "/location/note" : {
+      "delete" : {
+        "description" : "income event",
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "noteId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Заметка удалена"
+          },
+          "404" : {
+            "description" : "Заметка не найдена"
+          }
+        },
+        "summary" : "Feature Удалить заметку",
+        "tags" : [ "hub" ]
+      },
+      "get" : {
+        "description" : "consumed event",
+        "parameters" : [ {
+          "description" : "Радиус поиска в метрах",
+          "explode" : true,
+          "in" : "query",
+          "name" : "radius",
+          "required" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/MapNote"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Массив заметок в ближайшем диапазоне"
+          }
+        },
+        "summary" : "Feature Заметка на карте (получение всех заметок карты в ближайшем диапазоне)",
+        "tags" : [ "hub" ]
+      },
+      "post" : {
+        "description" : "income event",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MapNoteRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MapNote"
+                }
+              }
+            },
+            "description" : "Заметка сохранена"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка валидации тела запроса"
+          }
+        },
+        "summary" : "Feature Заметка на карте (оставить заметку)",
+        "tags" : [ "hub" ]
+      },
+      "put" : {
+        "description" : "income event",
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "noteId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MapNoteRequest"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MapNote"
+                }
+              }
+            },
+            "description" : "Заметка обновлена"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка валидации тела запроса"
+          },
+          "404" : {
+            "description" : "Заметка не найдена"
+          },
+          "409" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка сохранения заметки"
+          }
+        },
+        "summary" : "Modal Отредактировать заметку",
+        "tags" : [ "hub" ]
+      }
+    },
+    "/routes" : {
+      "delete" : {
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "routeId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserRoute"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Маршрут удален"
+          },
+          "404" : {
+            "description" : "Маршрут не существует"
+          }
+        },
+        "summary" : "Feature Удаление маршрута",
+        "tags" : [ "management" ]
+      },
+      "get" : {
+        "description" : "Получение массива координат сохраненных маршрутов пользователя",
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "userId",
+          "required" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserRoute"
+                  },
+                  "type" : "array"
+                }
+              }
+            },
+            "description" : "Массив координат сохраненных маршрутов пользователя"
+          },
+          "404" : {
+            "description" : "Пользователя не существует"
+          }
+        },
+        "summary" : "Modal История маршрутов",
+        "tags" : [ "management" ]
+      },
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SaveRouteRequest"
+              }
+            }
+          },
+          "description" : "Параметры маршрута",
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserRoute"
+                }
+              }
+            },
+            "description" : "Массив координат сохраненного маршрута"
+          },
+          "400" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка валидации тела запроса"
+          },
+          "409" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                }
+              }
+            },
+            "description" : "Ошибка сохранения маршрута"
+          }
+        },
+        "summary" : "Feature Сохранение маршрута",
+        "tags" : [ "management" ]
+      }
+    }
+  },
+  "components" : {
+    "responses" : {
+      "Exception" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/ErrorMessage"
+            }
+          }
+        },
+        "description" : "Тело ответа на ошибку с описанием"
+      }
+    },
+    "schemas" : {
+      "LocationRequest" : {
+        "example" : {
+          "latitude" : 6.027456183070403,
+          "longtitude" : 0.8008281904610115,
+          "course" : 1.4658129805029452,
+          "speed" : 5.962133916683182
+        },
+        "properties" : {
+          "longtitude" : {
+            "type" : "number"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "course" : {
+            "nullable" : true,
+            "type" : "number"
+          },
+          "speed" : {
+            "nullable" : true,
+            "type" : "number"
+          }
+        },
+        "required" : [ "latitude", "longtitude" ],
+        "title" : "DTO набор координат",
+        "type" : "object"
+      },
+      "Location" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/LocationRequest"
+        } ],
+        "example" : {
+          "pointId" : "pointId"
+        },
+        "properties" : {
+          "pointId" : {
+            "type" : "string"
+          }
+        },
+        "title" : "DTO набор сохраненных  координат",
+        "type" : "object"
+      },
+      "UserLocation" : {
+        "example" : {
+          "lastLocation" : {
+            "pointId" : "pointId"
+          },
+          "time" : "2000-01-23T04:56:07.000+00:00",
+          "userId" : 0,
+          "isHidden" : true
+        },
+        "properties" : {
+          "userId" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "time" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "lastLocation" : {
+            "$ref" : "#/components/schemas/Location"
+          },
+          "isHidden" : {
+            "default" : true,
+            "type" : "boolean"
+          }
+        },
+        "title" : "DTO местоположение пользователя",
+        "type" : "object"
+      },
+      "SaveRouteRequest" : {
+        "example" : {
+          "till" : "till",
+          "routeName" : "routeName",
+          "since" : "since"
+        },
+        "properties" : {
+          "routeName" : {
+            "type" : "string"
+          },
+          "since" : {
+            "type" : "string"
+          },
+          "till" : {
+            "type" : "string"
+          }
+        },
+        "title" : "DTO сохранения маршрута пользователя",
+        "type" : "object"
+      },
+      "UserRoute" : {
+        "example" : {
+          "routeId" : "routeId",
+          "userId" : 0,
+          "routeName" : "routeName",
+          "points" : [ {
+            "pointId" : "pointId"
+          }, {
+            "pointId" : "pointId"
+          } ]
+        },
+        "properties" : {
+          "routeId" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "format" : "int64",
+            "type" : "integer"
+          },
+          "routeName" : {
+            "type" : "string"
+          },
+          "points" : {
+            "items" : {
+              "$ref" : "#/components/schemas/Location"
+            },
+            "type" : "array"
+          }
+        },
+        "title" : "DTO маршрут пользователя",
+        "type" : "object"
+      },
+      "MapNoteRequest" : {
+        "example" : {
+          "location" : {
+            "pointId" : "pointId"
+          },
+          "time" : "2000-01-23T04:56:07.000+00:00",
+          "message" : "message",
+          "timeout" : "2000-01-23T04:56:07.000+00:00"
+        },
+        "properties" : {
+          "time" : {
+            "format" : "date-time",
+            "type" : "string"
+          },
+          "timeout" : {
+            "format" : "date-time",
+            "nullable" : true,
+            "type" : "string"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/Location"
+          },
+          "message" : {
+            "nullable" : false,
+            "type" : "string"
+          }
+        },
+        "required" : [ "location", "message" ],
+        "title" : "DTO заметки на карте",
+        "type" : "object"
+      },
+      "MapNote" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/MapNoteRequest"
+        } ],
+        "example" : {
+          "noteId" : "noteId"
+        },
+        "properties" : {
+          "noteId" : {
+            "type" : "string"
+          }
+        },
+        "title" : "DTO сохраненные заметки на карте",
+        "type" : "object"
+      },
+      "ErrorMessage" : {
+        "properties" : {
+          "userErrorMessage" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          },
+          "arguments" : {
+            "items" : {
+              "type" : "object"
+            },
+            "type" : "array"
+          }
+        },
+        "title" : "Сообщение ошибки"
+      }
+    }
+  }
+}

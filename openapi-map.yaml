@@ -1,0 +1,381 @@
+openapi: '3.0.2'
+info:
+  title: API MVP Карты
+  version: '1.0'
+servers:
+  - url: v1
+tags:
+  - name: hub
+    description: Proxy для ws "hub" MVP Карта
+  - name: route
+    description: Feature Трекер маршрутов
+
+paths:
+  
+# /hub/* - proxy для ws
+  /location:
+    put:
+      tags:
+        - "hub"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+              default: false
+      summary: Feature Статус показа местоположения
+      description: income event
+      responses:
+        '200':
+          description: Успешно изменен статус показа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLocation'
+        '409':
+          description: Ошибка изменения статуса показа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'          
+    post:
+      tags:
+        - "hub"
+      summary: MVP Геймификация Feature Трекер маршрутов
+      description: Текущее местоположение во время прогулки (income event)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationRequest'
+      responses:
+        '201':
+          description: Текущие координаты сохранены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Location'
+        '409':
+          description: Ошибка сохранения
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '400':
+          description: Ошибка валидации тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+  /location/radar:
+    get:
+      tags:
+        - "hub"
+      summary: Modal Радар
+      description: consumed event
+      responses:
+        '200':
+          description: Массив пользователей рядом
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserLocation'
+
+  /location/note:
+    get:
+      tags:
+        - "hub"
+      summary: Feature Заметка на карте (получение всех заметок карты в ближайшем диапазоне)
+      description: consumed event
+      parameters:
+        - name: radius
+          description: Радиус поиска в метрах
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Массив заметок в ближайшем диапазоне
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MapNote'
+    post:
+      tags:
+        - "hub"
+      summary: Feature Заметка на карте (оставить заметку)
+      description: income event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapNoteRequest'
+      responses:
+        '201':
+          description: Заметка сохранена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapNote'         
+        '400':
+          description: Ошибка валидации тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage' 
+    put:
+      tags:
+        - "hub"
+      summary: Modal Отредактировать заметку
+      description: income event
+      parameters:
+        - name: noteId
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapNoteRequest'
+      responses:
+        '200':
+          description: Заметка обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MapNote'         
+        '400':
+          description: Ошибка валидации тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Заметка не найдена
+        '409':
+          description: Ошибка сохранения заметки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+        - "hub"
+      summary: Feature Удалить заметку
+      description: income event
+      parameters:
+        - name: noteId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Заметка удалена
+        '404':
+          description: Заметка не найдена
+
+# routes management api 
+  /routes:
+    get:
+      tags:
+        - "management"
+      summary: Modal История маршрутов
+      description: Получение массива координат сохраненных маршрутов пользователя 
+      parameters:
+        - name: userId
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Массив координат сохраненных маршрутов пользователя
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRoute'
+        '404':
+          description: Пользователя не существует
+    post:
+      tags:
+        - "management"
+      summary: Feature Сохранение маршрута
+      requestBody:
+        description: Параметры маршрута
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveRouteRequest'
+      responses:
+        '200':
+          description: Массив координат сохраненного маршрута
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRoute'
+        '400':
+          description: Ошибка валидации тела запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '409':
+          description: Ошибка сохранения маршрута
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+    delete:
+      tags:
+        - "management"
+      summary: Feature Удаление маршрута
+      parameters:
+        - name: routeId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Маршрут удален
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserRoute'
+        '404':
+          description: Маршрут не существует
+
+components:
+  responses:
+    Exception:
+      description: Тело ответа на ошибку с описанием
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+  schemas:
+    LocationRequest:
+      title: DTO набор координат
+      type: object
+      properties:
+        longtitude:
+          type: number
+        latitude:
+          type: number
+        # нужны ли? не всегда приходят с датчиков
+        course:
+          type: number
+          nullable: true
+        speed:
+          type: number
+          nullable: true
+      required:
+        - longtitude
+        - latitude
+
+    Location:
+      title: DTO набор сохраненных  координат
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/LocationRequest'
+      properties:
+        pointId:
+          type: string
+
+    UserLocation:
+      title: DTO местоположение пользователя
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        time:
+          type: string
+          format: date-time
+        lastLocation:
+          $ref: '#/components/schemas/Location'
+        isHidden:
+          type: boolean
+          default: true
+
+    SaveRouteRequest:
+      title: DTO сохранения маршрута пользователя
+      type: object
+      properties:
+        routeName:
+          type: string
+        since:
+          type: string
+        till:
+          type: string
+            
+    UserRoute:
+      title: DTO маршрут пользователя
+      type: object
+      properties:
+        routeId:
+          type: string
+        userId:
+          type: integer
+          format: int64
+        routeName:
+          type: string
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/Location'
+
+    MapNoteRequest:
+      title: DTO заметки на карте
+      type: object
+      properties:
+        time:
+          type: string
+          format: date-time
+        timeout:
+          type: string
+          format: date-time
+          nullable: true
+        location:
+          $ref: '#/components/schemas/Location'
+        message:
+          type: string
+          nullable: false
+      required:
+        - location
+        - message
+
+    MapNote:
+      title: DTO сохраненные заметки на карте
+      type: object
+      properties:
+        noteId:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/MapNoteRequest'
+
+    ErrorMessage:
+      title: Сообщение ошибки
+      properties:
+        userErrorMessage:
+          type: string
+        error:
+          type: string
+        arguments:
+          type: array
+          items:
+            type: object
+
