@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Map.Domain\Map.Domain.csproj" />
+    <ProjectReference Include="..\Map.Contract\Map.Contract.csproj" />
+    <ProjectReference Include="..\Map.Contract.Models\Map.Contract.Models.csproj" />
+  </ItemGroup>
+
 </Project>
