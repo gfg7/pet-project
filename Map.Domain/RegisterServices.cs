@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.Common;
 using ClickHouse.Client.ADO;
 using Map.Domain.Contracts.Database;
 using Map.Domain.Contracts.Database.Connection;
@@ -33,7 +34,7 @@ namespace Map.Domain
         }
 
         public static IServiceCollection RegisterDatabase<C, F, S>(this IServiceCollection services, bool isTransactional = false)
-        where C : IDbConnection
+        where C : DbConnection
         where F : class, IConnectionProvider<C>
         where S : IDbService<C>
         {
@@ -41,8 +42,9 @@ namespace Map.Domain
             services.AddScoped<IConnectionFactoryProvider<C>, ConnectionFactoryProvider<C>>();
             services.AddScoped(typeof(IDbService<C>), typeof(S));
 
-            if (isTransactional) {
-                services.AddScoped(typeof(TransactionDbService<IDbConnection>), typeof(S));
+            if (isTransactional)
+            {
+                services.AddScoped(typeof(IDbConnection), typeof(C));
             }
 
             return services;
